@@ -1,16 +1,14 @@
 import axios from 'axios'
 import { url } from '../config/ipconfig'
 
-let Base64 = require('js-base64').Base64
-let token = localStorage.getItem('token')
-console.log(token)
+let Username = localStorage.getItem('token')
+let Password = ''
 let auth = ''
-if (token) {
-  auth = 'Basic ' + Base64.encodeURI(token)
+if (Username) {
+  auth = 'Basic ' + btoa(Username + ':' + Password)
 } else {
   auth = ''
 }
-console.log(auth)
 const instance = axios.create({
   baseURL: url,
   timeout: 5000
@@ -22,8 +20,6 @@ instance.defaults.validateStatus = status => {
 //  http request 拦截器
 instance.interceptors.request.use(
   config => {
-    // const Username = 'eyJhbGciOiJIUzUxMiIsImlhdCI6MTU0NzM1NTEzNSwiZXhwIjoxNTQ5MDgzMTM1fQ.eyJpZCI6MSwidHlwZSI6MTAwLCJzY29wZSI6IlVzZXJTY29wZSJ9.AfmvymV0rblwmyp35iWwu6_uLC1f539koGf0EEM92qR3dCvFrErCirKdEVrmDqQ3TcCUdUbRfMEf759yWStreQ'
-    // const token = getCookie('名称');注意使用的时候需要引入cookie方法，推荐js-cookie
     config.data = JSON.stringify(config.data)
     config.headers = {
       'Content-Type': 'application/json',

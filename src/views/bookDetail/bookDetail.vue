@@ -33,8 +33,8 @@
       </ul>
     </div>
     <div class="present">
-      <div class="present_book">赠送此书</div>
-      <div class="add_wish">加入到心愿清单</div>
+      <div class="present_book" @click="presentBook">赠送此书</div>
+      <div class="add_wish" @click="addToWish">加入到心愿清单</div>
     </div>
     <div class="short_detail">
       <div class="tit">内容简介</div>
@@ -59,7 +59,8 @@ export default {
   name: 'bookDetail',
   data () {
     return {
-      bookDetail: {}
+      bookDetail: {},
+      isbn: this.$route.query.isbn
     }
   },
   created () {
@@ -67,9 +68,45 @@ export default {
   },
   methods: {
     bookDetails () {
-      let urls = url + '/book/detail/' + this.$route.query.isbn
+      let urls = url + '/book/detail/' + this.isbn
       this.$get(urls).then(res => {
         this.bookDetail = res
+      })
+    },
+    // 加入心愿清单
+    addToWish () {
+      let urls = url + '/saveWish'
+      let data = {
+        isbn: this.isbn
+      }
+      this.$post(urls, data).then(res => {
+        if (res.error_code === 0) {
+          this.$notify({
+            title: '成功',
+            message: '成功加入心愿清单',
+            type: 'success'
+          })
+        }
+      })
+    },
+    // 赠送此书
+    presentBook () {
+      let urls = url + '/saveGift/' + this.isbn
+      this.$post(urls).then(res => {
+        if (res.error_code === 0) {
+          let message = '成功赠送此书'
+          this.alertStatus(message)
+        } else {
+          let message = '成功赠送此书'
+          this.alertStatus(message)
+        }
+      })
+    },
+    alertStatus (tittle = '成功', message, type = 'success') {
+      this.$notify({
+        title: tittle,
+        message: message,
+        type: type
       })
     }
   }
