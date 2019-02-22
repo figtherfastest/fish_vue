@@ -81,11 +81,12 @@ export default {
       }
       this.$post(urls, data).then(res => {
         if (res.error_code === 0) {
-          this.$notify({
-            title: '成功',
-            message: '成功加入心愿清单',
-            type: 'success'
-          })
+          let message = '成功加入心愿清单'
+          this.alertStatus(message)
+        } else {
+          const tittle = '失败'
+          const type = 'error'
+          this.alertStatus(tittle, res.msg, type)
         }
       })
     },
@@ -97,8 +98,9 @@ export default {
           let message = '成功赠送此书'
           this.alertStatus(message)
         } else {
-          let message = '成功赠送此书'
-          this.alertStatus(message)
+          const tittle = '失败'
+          const type = 'error'
+          this.alertStatus(tittle, res.msg, type)
         }
       })
     },

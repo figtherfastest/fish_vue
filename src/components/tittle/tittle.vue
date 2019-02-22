@@ -46,12 +46,23 @@ export default {
   name: 'header',
   data () {
     return {
-      name: '小刚',
-      logState: false,
+      name: localStorage.getItem('userName') || '',
+      logState: true,
       active: 1
     }
   },
+  created () {
+    this.loginState()
+  },
   methods: {
+    loginState () {
+      let name = localStorage.getItem('userName')
+      if (name) {
+        this.logState = true
+      } else {
+        this.logState = false
+      }
+    },
     login () {
       this.$router.push('/login')
     },
@@ -61,17 +72,26 @@ export default {
     crrentUpload () {
       this.active = 1
       this.$router.push({
-        path: '/index'
+        name: 'index'
       })
     },
     presentList () {
       this.active = 2
+      this.$router.push({
+        name: 'giftList'
+      })
     },
     wishesList () {
       this.active = 3
+      this.$router.push({
+        name: 'wishList'
+      })
     },
     doDrift () {
       this.active = 4
+      this.$router.push({
+        name: 'drift'
+      })
     }
   }
 }

@@ -1,14 +1,6 @@
 import axios from 'axios'
 import { url } from '../config/ipconfig'
 
-let Username = localStorage.getItem('token')
-let Password = ''
-let auth = ''
-if (Username) {
-  auth = 'Basic ' + btoa(Username + ':' + Password)
-} else {
-  auth = ''
-}
 const instance = axios.create({
   baseURL: url,
   timeout: 5000
@@ -20,7 +12,17 @@ instance.defaults.validateStatus = status => {
 //  http request 拦截器
 instance.interceptors.request.use(
   config => {
+    let Username = localStorage.getItem('token')
+    let Password = ''
+    let auth = ''
+    if (Username) {
+      auth = 'Basic ' + btoa(Username + ':' + Password)
+    } else {
+      auth = ''
+    }
+    alert(1)
     config.data = JSON.stringify(config.data)
+    console.log(config.data)
     config.headers = {
       'Content-Type': 'application/json',
       'Authorization': auth

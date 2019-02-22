@@ -4,9 +4,6 @@ export const getTokens = {
   computed: {
     ...mapGetters([
       'token'
-    ]),
-    tokens () {
-      return '111'
-    }
+    ])
   }
 }

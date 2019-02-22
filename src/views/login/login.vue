@@ -44,6 +44,7 @@ export default {
   },
   created() {
     localStorage.removeItem('token')
+      localStorage.removeItem('userName')
   },
   methods: {
     login () {
@@ -61,9 +62,11 @@ export default {
             message: '登录成功',
             type: 'success'
           })
-          localStorage.setItem('token', res.token)
+          localStorage.setItem('token', res.responce.token)
+          localStorage.setItem('userName', res.responce.userName)
+          this.setToken(res.responce.token)
           this.$router.push({
-            path: '/index'
+            name: 'index',
           })
         }
       })
